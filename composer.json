@@ -1,0 +1,54 @@
+{
+    "name": "lbhurtado/ballot",
+    "description": "This is a helper package for VTM - ballot, positions, candidates, etc..",
+    "keywords": [
+        "lbhurtado",
+        "ballot"
+    ],
+    "homepage": "https://github.com/lbhurtado/ballot",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Lester Hurtado",
+            "email": "lester@hurtado.ph",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LBHurtado\\Ballot\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LBHurtado\\Ballot\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LBHurtado\\Ballot\\BallotServiceProvider"
+            ],
+            "aliases": {
+                "Ballot": "LBHurtado\\Ballot\\BallotFacade"
+            }
+        }
+    }
+}
