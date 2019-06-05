@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * Class CreateContactsTable.
+ */
+class CreateBallotsTable extends Migration
+{
+	protected $default_table_name = 'ballots';
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		tap(config('ballot.table_names.ballots', $this->default_table_name), function($table_name) {
+			Schema::create($table_name, function(Blueprint $table) {
+	            $table->increments('id');
+	            $table->string('code')->unique();
+	            $table->timestamps();
+			});			
+		});
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		tap(config('ballot.table_names.ballots', $this->default_table_name), function($table_name) {
+			Schema::drop($table_name);
+		});
+	}
+}

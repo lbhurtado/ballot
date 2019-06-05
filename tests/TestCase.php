@@ -16,9 +16,11 @@ class TestCase extends BaseTestCase
 
         include_once __DIR__.'/../database/migrations/create_positions_table.php.stub';
         include_once __DIR__.'/../database/migrations/create_candidates_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_ballots_table.php.stub';
 
         (new \CreatePositionsTable)->up();
         (new \CreateCandidatesTable)->up();
+        (new \CreateBallotsTable)->up();
 
         $this->faker = $this->makeFaker('en_PH');
     }
