@@ -23,6 +23,19 @@ class BallotTest extends TestCase
 	}
 
 	/** @test */
+	public function model_has_factory()
+	{
+        /*** arrange ***/
+        $code = $this->faker->word;
+
+        /*** act ***/	
+        $ballot = factory(Ballot::class)->create(compact('code'));
+
+        /*** assert ***/
+        $this->assertEquals($code, $ballot->code);
+	}
+
+	/** @test */
 	public function ballot_code_attribute_is_unique()
 	{
         /*** arrange ***/
@@ -40,8 +53,7 @@ class BallotTest extends TestCase
 	public function ballot_has_pivot_with_candidate_model_and_qty()
 	{
         /*** arrange ***/
-        $ballot = Ballot::create(['code' => $this->faker->word]);
-		// $candidate = Candidate::create(['code' => $this->faker->word, 'name' => $this->faker->name]);
+        $ballot = factory(Ballot::class)->create();
 		$candidate = factory(Candidate::class)->create();
 		$votes = 1;
 
@@ -61,8 +73,8 @@ class BallotTest extends TestCase
 	public function ballot_candidate_pivot_qty_defaults_to_1()
 	{
         /*** arrange ***/
-        $ballot = Ballot::create(['code' => $this->faker->word]);
-		$candidate = Candidate::create(['code' => $this->faker->word, 'name' => $this->faker->name]);
+        $ballot = factory(Ballot::class)->create();
+		$candidate = factory(Candidate::class)->create();
 
         /*** act ***/
 		$pivot = BallotCandidate::conjure($candidate);
@@ -80,8 +92,8 @@ class BallotTest extends TestCase
 	public function ballot__add_candidate_default_to_pivot()
 	{
         /*** arrange ***/
-        $ballot = Ballot::create(['code' => $this->faker->word]);
-		$candidate = Candidate::create(['code' => $this->faker->word, 'name' => $this->faker->name]);
+        $ballot = factory(Ballot::class)->create();
+		$candidate = factory(Candidate::class)->create();
 
         /*** act ***/
 		$ballot->addCandidate($candidate);
@@ -98,8 +110,8 @@ class BallotTest extends TestCase
 	public function ballot_candidate_pivot_is_unique()
 	{
         /*** arrange ***/
-        $ballot = Ballot::create(['code' => $this->faker->word]);
-		$candidate = Candidate::create(['code' => $this->faker->word, 'name' => $this->faker->name]);
+        $ballot = factory(Ballot::class)->create();
+		$candidate = factory(Candidate::class)->create();
 		$votes = 1;
 
         /*** assert ***/

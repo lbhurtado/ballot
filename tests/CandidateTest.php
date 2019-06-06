@@ -50,4 +50,17 @@ class CandidateTest extends TestCase
 		Candidate::create(compact('name'));
 		Candidate::create(compact('name'));
 	}
+
+	/** @test */
+	public function model_has_factory()
+	{
+        /*** arrange ***/
+		$name = $this->faker->name;
+
+        /*** act ***/	
+        $candidate = factory(Candidate::class)->create(compact('name'));
+
+        /*** assert ***/
+        $this->assertEquals($name, $candidate->name);
+	}
 }

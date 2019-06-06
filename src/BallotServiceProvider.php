@@ -2,8 +2,8 @@
 
 namespace LBHurtado\Ballot;
 
-use LBHurtado\Ballot\Models\Candidate;
 use Illuminate\Support\ServiceProvider;
+use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class BallotServiceProvider extends ServiceProvider
@@ -82,6 +82,14 @@ class BallotServiceProvider extends ServiceProvider
     {
         $this->app->singleton('ballot.candidate', function () {
             $class = config('ballot.classes.models.candidate', Candidate::class);
+            return new $class;
+        });
+        $this->app->singleton('ballot.position', function () {
+            $class = config('ballot.classes.models.position', Position::class);
+            return new $class;
+        });
+        $this->app->singleton('ballot.ballot', function () {
+            $class = config('ballot.classes.models.ballot', Ballot::class);
             return new $class;
         });
     }

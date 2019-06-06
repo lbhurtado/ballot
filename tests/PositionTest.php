@@ -35,4 +35,17 @@ class PositionTest extends TestCase
 		Position::create(compact('name'));
 		Position::create(compact('name'));
 	}
+
+	/** @test */
+	public function model_has_factory()
+	{
+        /*** arrange ***/
+		$name = $this->faker->name;
+
+        /*** act ***/	
+        $position = factory(Position::class)->create(compact('name'));
+
+        /*** assert ***/
+        $this->assertEquals($name, $position->name);
+	}
 }
