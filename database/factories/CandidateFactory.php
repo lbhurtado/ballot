@@ -11,5 +11,6 @@ $factory->define(get_class(app('ballot.candidate')), function (Faker $faker) {
     return [
         'code' => $faker->word,
         'name' => $faker->name,
+        'position_id' => factory(get_class(app('ballot.position')))->create()->id,
     ];
 });

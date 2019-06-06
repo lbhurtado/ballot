@@ -10,4 +10,19 @@ class Candidate extends Model
         'code',
         'name'
     ];
+
+	public static function create(Position $position, array $attributes = [])
+	{
+    	$model = tap(static::query()
+    		->make($attributes)
+    		->position()->associate($position))
+    		->save();
+
+    	return $model;
+	}
+
+    public function position()
+    {
+    	return $this->belongsTo(Position::class);
+    }
 }

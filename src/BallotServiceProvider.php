@@ -39,14 +39,14 @@ class BallotServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             if (! class_exists(CreateCandidatesTable::class)) {
                 $this->publishes([
-                    self::PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB => database_path('migrations/'.date('Y_m_d_His', time()).'_create_candidates_table.php'),
+                    self::PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB => database_path('migrations/'.date('Y_m_d_His', time()+50).'_create_candidates_table.php'),
                 ], 'ballot-migrations');
             }
         }
         if ($this->app->runningInConsole()) {
             if (! class_exists(CreateBallotsTable::class)) {
                 $this->publishes([
-                    self::PACKAGE_BALLOTS_TABLE_MIGRATION_STUB => database_path('migrations/'.date('Y_m_d_His', time()).'_create_ballots_table.php'),
+                    self::PACKAGE_BALLOTS_TABLE_MIGRATION_STUB => database_path('migrations/'.date('Y_m_d_His', time()+60).'_create_ballots_table.php'),
                 ], 'ballot-migrations');
             }
         }

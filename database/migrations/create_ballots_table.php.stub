@@ -24,6 +24,7 @@ class CreateBallotsTable extends Migration
 			Schema::create($table_name, function(Blueprint $table) {
 	            $table->increments('id');
 	            $table->string('code')->unique();
+	            $table->string('image')->nullable();
 	            $table->timestamps();
 			});			
 		});
