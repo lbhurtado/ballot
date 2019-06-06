@@ -2,11 +2,14 @@
 
 namespace LBHurtado\Ballot;
 
+use LBHurtado\Ballot\Models\Candidate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class BallotServiceProvider extends ServiceProvider
 {
     const PACKAGE_BALLOT_CONFIG = __DIR__.'/../config/config.php';
+    const PACKAGE_FACTORY_DIR = __DIR__ . '/../database/factories';
     const PACKAGE_POSITIONS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_positions_table.php.stub';
     const PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_candidates_table.php.stub';
     const PACKAGE_BALLOTS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_ballots_table.php.stub';
@@ -14,12 +17,14 @@ class BallotServiceProvider extends ServiceProvider
     {
         $this->publishConfigs();
         $this->publishMigrations();
+        $this->mapFactories();
     }
 
     public function register()
     {
         $this->registerConfigs();
         $this->registerFacades();
+        $this->registerModels();
     }
 
     protected function publishMigrations()
@@ -56,6 +61,11 @@ class BallotServiceProvider extends ServiceProvider
         }
     }
 
+    public function mapFactories()
+    {
+        $this->app->make(EloquentFactory::class)->load(self::PACKAGE_FACTORY_DIR);
+    }
+
     protected function registerConfigs()
     {
         $this->mergeConfigFrom(self::PACKAGE_BALLOT_CONFIG, 'ballot');
@@ -65,6 +75,14 @@ class BallotServiceProvider extends ServiceProvider
     {
         $this->app->singleton('ballot', function () {
             return new Ballot;
+        });
+    }
+
+    protected function registerModels()
+    {
+        $this->app->singleton('ballot.candidate', function () {
+            $class = config('ballot.classes.models.candidate', Candidate::class);
+            return new $class;
         });
     }
 }
