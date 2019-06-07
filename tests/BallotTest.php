@@ -4,8 +4,8 @@ namespace LBHurtado\Ballot\Tests;
 
 use WithFaker;
 use Illuminate\Support\Arr;
-use LBHurtado\Ballot\Models\{Ballot, Candidate, BallotCandidate};
 use Illuminate\Database\QueryException;
+use LBHurtado\Ballot\Models\{Ballot, Position, Candidate, BallotCandidate};
 
 class BallotTest extends TestCase
 {
@@ -50,20 +50,22 @@ class BallotTest extends TestCase
 	}
 
 	/** @test */
-	public function ballot_has_pivot_with_candidate_model_and_qty()
+	public function ballot_has_pivot_with_position_candidate_models_and_qty()
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
+        $position = factory(Position::class)->create();
 		$candidate = factory(Candidate::class)->create();
 		$votes = 1;
 
         /*** act ***/
-		$pivot = BallotCandidate::conjure($candidate, $votes);
-		$ballot->addCandidate($candidate, $pivot);
+		$pivot = BallotCandidate::conjure($position, $candidate, $votes);
+		$ballot->addCandidate($position, $candidate, $pivot);
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [
 			'ballot_id' => $ballot->id,
+			'position_id' => $position->id,
 			'candidate_id' => $candidate->id,
 			'votes' => $votes
 		]);
@@ -74,11 +76,12 @@ class BallotTest extends TestCase
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
+        $position = factory(Position::class)->create();
 		$candidate = factory(Candidate::class)->create();
 
         /*** act ***/
-		$pivot = BallotCandidate::conjure($candidate);
-		$ballot->addCandidate($candidate, $pivot);
+		$pivot = BallotCandidate::conjure($position, $candidate);
+		$ballot->addCandidate($position, $candidate, $pivot);
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [
@@ -93,10 +96,11 @@ class BallotTest extends TestCase
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
+        $position = factory(Position::class)->create();
 		$candidate = factory(Candidate::class)->create();
 
         /*** act ***/
-		$ballot->addCandidate($candidate);
+		$ballot->addCandidate($position, $candidate);
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [
@@ -111,6 +115,7 @@ class BallotTest extends TestCase
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
+        $position = factory(Position::class)->create();
 		$candidate = factory(Candidate::class)->create();
 		$votes = 1;
 
@@ -118,8 +123,14 @@ class BallotTest extends TestCase
         $this->expectException(QueryException::class);
 
         /*** act ***/
-		$pivot = BallotCandidate::conjure($candidate, $votes);
-		$ballot->addCandidate($candidate, $pivot);
-		$ballot->addCandidate($candidate, $pivot);
+		$pivot = BallotCandidate::conjure($position, $candidate, $votes);
+		$ballot->addCandidate($position, $candidate, $pivot);
+		$ballot->addCandidate($position, $candidate, $pivot);
+	}
+
+	/** @test */
+	public function ballot_can_generate_all_positions()
+	{
+
 	}
 }

@@ -20,9 +20,9 @@ class Ballot extends Model
             ->withTimestamps();
     }
 
-    public function addCandidate(Candidate $candidate, Pivot $pivot = null)
+    public function addCandidate(Position $position, Candidate $candidate, Pivot $pivot = null)
     {
-    	$pivot = $pivot ?? Pivot::conjure($candidate);
+    	$pivot = $pivot ?? Pivot::conjure($position, $candidate);
     	
         return $this->candidates()->attach($candidate, $pivot->getAttributes());
     }

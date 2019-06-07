@@ -33,10 +33,12 @@ class CreateBallotsTable extends Migration
             Schema::create($table_name, function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('ballot_id')->unsigned()->index();
+                $table->integer('position_id')->unsigned()->nullable();
                 $table->integer('candidate_id')->unsigned()->index();
                 $table->tinyInteger('votes')->unsigned()->default(1);
                 $table->timestamps();
                 $table->foreign('ballot_id')->references('id')->on('ballots')->onDelete('cascade');
+                $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
                 $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
                 $table->unique('ballot_id', 'candidate_id');
             });

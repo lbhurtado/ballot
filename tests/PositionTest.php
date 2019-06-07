@@ -54,5 +54,14 @@ class PositionTest extends TestCase
 	public function position_model_has_seeder()
 	{
 		$this->assertDatabaseHas('positions', ['name' => 'President']);
+		$this->assertDatabaseHas('positions', ['name' => 'Vice-President']);
+		$this->assertDatabaseHas('positions', ['name' => 'Senator']);
+		$this->assertDatabaseHas('positions', ['name' => 'Congressman']);
+		$this->assertDatabaseHas('positions', ['name' => 'Governor']);
+		$this->assertDatabaseHas('positions', ['name' => 'Vice-Governor']);
+		$this->assertDatabaseHas('positions', ['name' => 'Board Member']);
+		$this->assertDatabaseHas('positions', ['name' => 'Mayor']);
+		$this->assertDatabaseHas('positions', ['name' => 'Vice-Mayor']);
+		$this->assertDatabaseHas('positions', ['name' => 'Councilor']);
 	}
 }
