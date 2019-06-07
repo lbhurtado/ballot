@@ -9,6 +9,7 @@ class Ballot extends Model
 {
     protected $fillable = [
         'code',
+        'image'
     ];
 
     public function candidates()
