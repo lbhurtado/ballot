@@ -3,6 +3,7 @@
 namespace LBHurtado\Ballot\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use LBHurtado\Ballot\Exceptions\PositionMismatchException;;
 
 class BallotCandidate extends Pivot
 {
@@ -16,15 +17,16 @@ class BallotCandidate extends Pivot
         return $this->belongsTo(Candidate::class);
     }
 
-    public function setPosition(Position $position)
-    {
-        $this->position()->associate($position);
-
-        return $this;
-    }
-
+    //TODO: throw exception in create and update event - in observable probably
     public function setCandidate(Candidate $candidate)
     {
+        optional($this->position, function ($position) use ($candidate) {
+            if ($candidate)
+                if ($this->position->id <> $candidate->position->id)
+                    throw new PositionMismatchException;            
+        });
+
+
         $this->candidate()->associate($candidate);
         $this->votes = 1;
 

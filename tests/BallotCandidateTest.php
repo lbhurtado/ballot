@@ -5,46 +5,18 @@ namespace LBHurtado\Ballot\Tests;
 use WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Database\QueryException;
+use LBHurtado\Ballot\Exceptions\PositionMismatchException;
 use LBHurtado\Ballot\Models\{Ballot, Position, Candidate, BallotCandidate};
 
 class BallotCandidateTest extends TestCase
 {
 	/** @test */
-	public function ballot_candidates_relations_has_pivot_with_position_and_votes_attributes()
-	{
-        /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
-        $position = factory(Position::class)->create();
-		$candidate = factory(Candidate::class)->create();
-		$votes = 1;
-
-        /*** act ***/
-		$pivot = (new BallotCandidate)
-			->setPosition($position)
-			->setVotes($votes)
-			;
-
-		$ballot->candidates()->attach($candidate, $pivot->getAttributes());
-
-        /*** assert ***/
-        $this->assertTrue($candidate->is($ballot->candidates->first()));
-        $this->assertTrue($position->is($pivot->position));
-        $this->assertEquals($votes, $pivot->votes);
-		$this->assertDatabaseHas('ballot_candidate', [
-			'ballot_id' => $ballot->id,
-			'position_id' => $position->id,
-			'candidate_id' => $candidate->id,
-			'votes' => $votes
-		]);
-	}
-
-	/** @test */
 	public function ballot_positions_relation_has_pivot_with_candidates_and_votes_attributes()
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
-        $position = factory(Position::class)->create();
-		$candidate = factory(Candidate::class)->create();
+		$candidate = Candidate::all()->random();
+        $position = $candidate->position;
 		$votes = 1;
 
         /*** act ***/
@@ -112,7 +84,7 @@ class BallotCandidateTest extends TestCase
 
 		/*** act ***/
 		$pivot
-			->setCandidate($candidate = factory(Candidate::class)->create())
+			->setCandidate($candidate = Candidate::all()->random()->position()->associate($position))
 			->setVotes($votes = 1)
 			->save()
 			;
@@ -153,12 +125,12 @@ class BallotCandidateTest extends TestCase
 	}
 
 	/** @test */
-	public function ballot_positions_pivot_vote_cannot_have_more_0_as_value()
+	public function ballot_positions_pivot_vote_cannot_have_0_or_less_as_value()
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
         $candidate = Candidate::all()->random();
-        $votes = 0;
+        $votes = $this->faker->numberBetween(-1000, 0);
         $pivot = (new BallotCandidate)->setCandidate($candidate)->setVotes($votes);
 
         /*** assert ***/ 
@@ -182,5 +154,39 @@ class BallotCandidateTest extends TestCase
 
 		/*** act ***/        
         $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
+	}
+
+	/** @test */
+	public function ballot_positions_pivot_is_unique_per_candidate()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $pivot = (new BallotCandidate)->setCandidate($candidate = Candidate::all()->random());
+
+        /*** assert ***/ 
+        $this->expectException(QueryException::class);
+
+		/*** act ***/        
+        $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
+        $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
+	}
+
+	/** @test */
+	public function ballot_positions_pivot_candidate_position_must_match_pivot_position()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $position1 = Position::withName('President')->first();
+        $position2 = Position::withName('Mayor')->first();
+        $candidate = factory(Candidate::class)->create()->position()->associate($position2);
+        $ballot->positions()->attach($position1, []);
+
+        /*** assert ***/ 
+        $this->expectException(PositionMismatchException::class);
+
+		/*** act ***/   
+		tap(BallotCandidate::withPosition($position1)->first(), function ($pivot) use ($candidate) {
+			$pivot->setCandidate($candidate)->save();
+		});     
 	}
 }

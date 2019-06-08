@@ -36,7 +36,6 @@ class CreateBallotsTable extends Migration
                 $table->integer('position_id')->unsigned()->nullable()->index();
                 $table->integer('candidate_id')->unsigned()->nullable()->index();
                 $table->enum('votes', [1])->nullable();
-                // $table->tinyInteger('votes')->unsigned()->nullable();
                 $table->timestamps();
                 $table->foreign('ballot_id')->references('id')->on('ballots')->onDelete('cascade');
                 $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
