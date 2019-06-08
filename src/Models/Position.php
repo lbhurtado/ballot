@@ -10,4 +10,9 @@ class Position extends Model
         'name',
         'level',
     ];
+
+    public function scopeWithName($query, $name)
+    {
+    	$query->where('name', $name);
+    }
 }

@@ -92,7 +92,7 @@ class BallotCandidateTest extends TestCase
 	{
         /*** arrange ***/
         $ballot = factory(Ballot::class)->create();
-        $position = factory(Position::class)->create();
+        $position = Position::all()->random();
         $ballot->positions()->attach($position, []);
 
 		$pivot = BallotCandidate::withPosition($position)->first();
@@ -129,5 +129,58 @@ class BallotCandidateTest extends TestCase
 			'candidate_id' => $candidate->id,
 			'votes' => $votes,
 		]);
+	}
+
+	/** @test */
+	public function ballot_positions_pivot_defaults_to_1_vote()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $candidate = Candidate::all()->random();
+		$pivot = (new BallotCandidate)->setCandidate($candidate);
+
+		/*** act ***/
+        $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
+
+        /*** assert ***/        
+        $this->assertEquals(1, $pivot->votes);
+		$this->assertDatabaseHas('ballot_candidate', [
+			'ballot_id' => $ballot->id,
+			'position_id' => $candidate->position->id, 
+			'candidate_id' => $candidate->id,
+			'votes' => 1,
+		]);
+	}
+
+	/** @test */
+	public function ballot_positions_pivot_vote_cannot_have_more_0_as_value()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $candidate = Candidate::all()->random();
+        $votes = 0;
+        $pivot = (new BallotCandidate)->setCandidate($candidate)->setVotes($votes);
+
+        /*** assert ***/ 
+        $this->expectException(QueryException::class);
+
+		/*** act ***/        
+        $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
+	}
+
+	/** @test */
+	public function ballot_positions_pivot_vote_cannot_have_more_than_1_as_value()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $candidate = Candidate::all()->random();
+        $votes = $this->faker->numberBetween(2,1000);
+        $pivot = (new BallotCandidate)->setCandidate($candidate)->setVotes($votes);
+
+        /*** assert ***/ 
+        $this->expectException(QueryException::class);
+
+		/*** act ***/        
+        $ballot->positions()->attach($candidate->position, $pivot->getAttributes());
 	}
 }

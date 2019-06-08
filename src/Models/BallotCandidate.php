@@ -6,18 +6,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BallotCandidate extends Pivot
 {
-    // public static function conjure(Position $position, Candidate $candidate = null, $votes = 1)
-    // {
-    //     $pivot = static::make()->position()->associate($position);
-
-    //     if ($candidate) {
-    //         $pivot->candidate()->associate($candidate);
-    //         $pivot->votes = $votes;
-    //     }
-                    
-    //     return $pivot;
-    // }
-
     public function position()
     {
         return $this->belongsTo(Position::class);
@@ -38,6 +26,7 @@ class BallotCandidate extends Pivot
     public function setCandidate(Candidate $candidate)
     {
         $this->candidate()->associate($candidate);
+        $this->votes = 1;
 
         return $this;
     }

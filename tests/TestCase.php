@@ -27,6 +27,9 @@ class TestCase extends BaseTestCase
         include_once __DIR__.'/../database/seeds/PositionSeeder.php';
         (new \PositionSeeder)->run();
 
+        include_once __DIR__.'/../database/seeds/CandidateSeeder.php';
+        (new \CandidateSeeder)->run();
+
         $this->faker = $this->makeFaker('en_PH');
     }
 
