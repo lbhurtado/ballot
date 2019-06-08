@@ -23,7 +23,7 @@ class CreateBallotsTable extends Migration
 		tap(config('ballot.table_names.ballots', $this->default_table_name), function($table_name) {
 			Schema::create($table_name, function(Blueprint $table) {
 	            $table->increments('id');
-	            $table->string('code')->unique();
+	            $table->string('code')->unique()->nullable();
 	            $table->string('image')->nullable();
 	            $table->timestamps();
 			});			

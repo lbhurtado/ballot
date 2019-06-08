@@ -23,6 +23,19 @@ class BallotTest extends TestCase
 	}
 
 	/** @test */
+	public function model_code_is_nullable()
+	{
+        /*** arrange ***/
+        $code = null;
+
+        /*** act ***/
+		$ballot = Ballot::create($attributes = compact('code'));
+
+        /*** assert ***/
+		$this->assertEquals($attributes, Arr::only($ballot->toArray(), array_keys($attributes)));
+	}
+
+	/** @test */
 	public function model_has_factory()
 	{
         /*** arrange ***/
@@ -33,6 +46,20 @@ class BallotTest extends TestCase
 
         /*** assert ***/
         $this->assertEquals($code, $ballot->code);
+	}
+
+	/** @test */
+	public function model_has_image_attribute()
+	{
+        /*** arrange ***/
+        $ballot = factory(Ballot::class)->create();
+        $image = $this->faker->image;
+
+        /*** act ***/
+		$ballot->update($attributes = compact('image'));
+
+        /*** assert ***/
+		$this->assertEquals($attributes, Arr::only($ballot->toArray(), array_keys($attributes)));
 	}
 
 	/** @test */

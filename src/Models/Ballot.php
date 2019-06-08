@@ -28,10 +28,16 @@ class Ballot extends Model
             ->withTimestamps();
     }
 
-    public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
+    public function setImage($file)
     {
-    	$pivot = $pivot ?? Pivot::conjure($position, $candidate);
-    	
-        return $this->candidates()->attach($candidate, $pivot->getAttributes());
+        $this->update(['image' => $file]);
+
+        return $this;
     }
+    // public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
+    // {
+    // 	$pivot = $pivot ?? Pivot::conjure($position, $candidate);
+    	
+    //     return $this->candidates()->attach($candidate, $pivot->getAttributes());
+    // }
 }

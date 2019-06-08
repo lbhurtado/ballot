@@ -23,13 +23,11 @@ class GrabImage
         $this->filename = $filename;
     }
 
+    //TODO: create a driver for Image
     public function handle()
     {
     	$image = Image::make($this->filename);
-
     	$image->save($newFileName = $this->getNewFileName());
-
-    	// dd($newFileName);
     	$this->ballot->update(['image' => $newFileName]);
     	unlink($this->filename);
     }

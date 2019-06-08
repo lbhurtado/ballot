@@ -19,6 +19,7 @@
         "php": "^7.1",
         "illuminate/support": "5.8.*",
         "intervention/image": "^2.4",
+        "khanamiryan/qrcode-detector-decoder": "^1.0",
         "lbhurtado/common": "^1.2",
         "libern/qr-code-reader": "^1.0"
     },

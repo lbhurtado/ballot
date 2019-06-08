@@ -3,10 +3,10 @@
 namespace LBHurtado\Ballot\Tests;
 
 use LBHurtado\Ballot\Models\Ballot;
-use LBHurtado\Ballot\Jobs\GrabImage;
 use Illuminate\Support\Facades\Storage;
+use LBHurtado\Ballot\Jobs\{GrabImage, ValidateImage};
 
-class GrabImageTest extends TestCase
+class ValidateImageTest extends TestCase
 {
 	/** @var \LBHurtado\Ballot\Models\Ballot */
 	protected $ballot;
@@ -20,13 +20,14 @@ class GrabImageTest extends TestCase
 	/** @var string */
 	protected $destinationImageFile;
 
+	//TODO: refactor this, exactly the same as setup and teardown of GrabImageTest
     public function setUp(): void
     {
     	parent::setUp();
 
-    	$this->seed = config('ballot.files.image.seed');
+		$this->ballot = factory(Ballot::class)->create(['code' => null]);
 
-		$this->ballot = factory(Ballot::class)->create();
+    	$this->seed = config('ballot.files.image.seed');
 
 		copy($this->seed, $this->sourceImageFile = config('ballot.files.image.source'));
 
@@ -46,39 +47,29 @@ class GrabImageTest extends TestCase
     }
 
 	/** @test */
-	public function job_accepts_ballot_and_filename()
+	public function job_accepts_ballot()
 	{
         /*** arrange ***/
-		$filename = $this->faker->word;
+        $ballot = factory(Ballot::class)->create();
 
         /*** act ***/
-		$job = new GrabImage($this->ballot, $filename);
+		$job = new ValidateImage($ballot);
 
         /*** assert ***/
-		$this->assertEquals($this->ballot, $job->ballot);
-		$this->assertEquals($filename, $job->filename);
+		$this->assertTrue($ballot->is($job->ballot));
 	}
 
 	/** @test */
-	public function job_can_move_source_image_to_destination_image_and_post_to_database()
+	public function job_can_read_qr_code_in_image()
 	{
         /*** arrange ***/
-		$job = new GrabImage($this->ballot, $this->sourceImageFile);	
-
-        /*** assert ***/
-        $this->assertTrue(file_exists($this->sourceImageFile));
-        $this->assertFalse(file_exists($this->destinationImageFile));
+        (new GrabImage($this->ballot, $this->sourceImageFile))->handle();
 
         /*** act ***/
-		$job->handle();
+		$job = new ValidateImage($this->ballot);
+        $job->handle();
 
         /*** assert ***/
-        $this->assertFalse(file_exists($this->sourceImageFile));
-        $this->assertTrue(file_exists($this->destinationImageFile));
-
-        $this->assertEquals($this->destinationImageFile, $this->ballot->image);
-        $this->assertDatabaseHas('ballots', [
-        	'image' => $this->destinationImageFile
-        ]);
+        $this->assertEquals(config('ballot.qrcode.test'), $this->ballot->code);
 	}
 }
