@@ -15,12 +15,20 @@ class Ballot extends Model
     public function candidates()
     {
         return $this->belongsToMany(Candidate::class)
-            ->withPivot('votes')
+            ->withPivot('votes', 'position_id')
             ->using(Pivot::class)
             ->withTimestamps();
     }
 
-    public function addCandidate(Position $position, Candidate $candidate, Pivot $pivot = null)
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class, 'ballot_candidate')
+            ->withPivot('candidate_id', 'votes')
+            ->using(Pivot::class)
+            ->withTimestamps();
+    }
+
+    public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
     {
     	$pivot = $pivot ?? Pivot::conjure($position, $candidate);
     	
