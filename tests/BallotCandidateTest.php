@@ -13,7 +13,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_relation_has_pivot_with_candidates_and_votes_attributes()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
 		$candidate = Candidate::all()->random();
         $position = $candidate->position;
 		$votes = 1;
@@ -42,7 +42,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_can_be_auto_generated()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
 		Position::all()->each(function($position) use ($ballot) {
 
 			/*** act ***/
@@ -62,7 +62,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_can_update_pivot_candidate_and_vote_after_being_generated()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $position = Position::all()->random();
         $ballot->positions()->attach($position, []);
 
@@ -106,7 +106,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_pivot_defaults_to_1_vote()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $candidate = Candidate::all()->random();
 		$pivot = (new BallotCandidate)->setCandidate($candidate);
 
@@ -127,7 +127,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_pivot_vote_cannot_have_0_or_less_as_value()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $candidate = Candidate::all()->random();
         $votes = $this->faker->numberBetween(-1000, 0);
         $pivot = (new BallotCandidate)->setCandidate($candidate)->setVotes($votes);
@@ -143,7 +143,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_pivot_vote_cannot_have_more_than_1_as_value()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $candidate = Candidate::all()->random();
         $votes = $this->faker->numberBetween(2,1000);
         $pivot = (new BallotCandidate)->setCandidate($candidate)->setVotes($votes);
@@ -159,7 +159,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_pivot_is_unique_per_candidate()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $pivot = (new BallotCandidate)->setCandidate($candidate = Candidate::all()->random());
 
         /*** assert ***/ 
@@ -174,7 +174,7 @@ class BallotCandidateTest extends TestCase
 	public function ballot_positions_pivot_candidate_position_must_match_pivot_position()
 	{
         /*** arrange ***/
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
         $position1 = Position::withName('President')->first();
         $position2 = Position::withName('Mayor')->first();
         $candidate = factory(Candidate::class)->create()->position()->associate($position2);

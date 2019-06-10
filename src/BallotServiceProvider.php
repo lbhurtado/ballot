@@ -7,11 +7,14 @@ use LBHurtado\Ballot\Console\BallotProcess;
 use LBHurtado\Ballot\Observers\BallotObserver;
 use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use \Illuminate\Database\Eloquent\FactoryBuilder;
 
 class BallotServiceProvider extends ServiceProvider
 {
+    const APPLICATION_POSITION_SEEDER = 'seeds/PositionSeeder.php';
     const PACKAGE_BALLOT_CONFIG = __DIR__.'/../config/config.php';
     const PACKAGE_FACTORY_DIR = __DIR__ . '/../database/factories';
+    const PACKAGE_POSITION_SEEDER = __DIR__.'/../database/seeds/PositionSeeder.php';
     const PACKAGE_POSITIONS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_positions_table.php.stub';
     const PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_candidates_table.php.stub';
     const PACKAGE_BALLOTS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_ballots_table.php.stub';
@@ -21,8 +24,10 @@ class BallotServiceProvider extends ServiceProvider
         $this->observeModels();
         $this->publishConfigs();
         $this->publishMigrations();
+        $this->publishSeeds();
         $this->publishCommands();
         $this->mapFactories();
+        $this->publishMacros();
     }
 
     public function register()
@@ -62,6 +67,15 @@ class BallotServiceProvider extends ServiceProvider
         }
     }
 
+    protected function publishSeeds()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                self::PACKAGE_POSITION_SEEDER => database_path(self::APPLICATION_POSITION_SEEDER),
+            ], 'ballot-seeds');
+        }
+    }
+
     protected function publishConfigs()
     {
         if ($this->app->runningInConsole()) {
@@ -81,6 +95,15 @@ class BallotServiceProvider extends ServiceProvider
     public function mapFactories()
     {
         $this->app->make(EloquentFactory::class)->load(self::PACKAGE_FACTORY_DIR);
+    }
+
+    public function publishMacros()
+    {
+        FactoryBuilder::macro('withoutEvents', function () {
+            $this->class::flushEventListeners();
+          
+            return $this;
+        });
     }
 
     protected function registerConfigs()

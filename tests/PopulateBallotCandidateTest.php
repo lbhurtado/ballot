@@ -11,8 +11,10 @@ class PopulateBallotCandidateTest extends TestCase
     public function job_persists_same_ballot_candidates_handled_multiple_times()
     {
         /*** arrange ***/
+        $this->withoutEvents();
+
         $positionCount = Position::all()->count();
-        $ballot = factory(Ballot::class)->create();
+        $ballot = factory(Ballot::class)->withoutEvents()->create();
 
         /*** assert ***/
         $this->assertEquals(0, BallotCandidate::all()->count());
