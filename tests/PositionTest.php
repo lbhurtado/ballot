@@ -2,7 +2,6 @@
 
 namespace LBHurtado\Ballot\Tests;
 
-use WithFaker;
 use Illuminate\Support\Arr;
 use LBHurtado\Ballot\Models\Position;
 use Illuminate\Database\QueryException;

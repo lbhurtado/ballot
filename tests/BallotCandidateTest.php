@@ -2,7 +2,6 @@
 
 namespace LBHurtado\Ballot\Tests;
 
-use WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Database\QueryException;
 use LBHurtado\Ballot\Exceptions\PositionMismatchException;
