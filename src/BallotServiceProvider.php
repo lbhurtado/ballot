@@ -14,18 +14,13 @@ class BallotServiceProvider extends ServiceProvider
     const PACKAGE_POSITIONS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_positions_table.php.stub';
     const PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_candidates_table.php.stub';
     const PACKAGE_BALLOTS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_ballots_table.php.stub';
-    
+
     public function boot()
     {
         $this->publishConfigs();
         $this->publishMigrations();
+        $this->publishCommands();
         $this->mapFactories();
-
-        // if ($this->app->runningInConsole()) {
-            $this->commands([
-                BallotProcess::class,
-            ]);
-        // }
     }
 
     public function register()
@@ -67,6 +62,13 @@ class BallotServiceProvider extends ServiceProvider
                 self::PACKAGE_BALLOT_CONFIG => config_path('ballot.php'),
             ], 'ballot-config');
         }
+    }
+
+    protected function publishCommands()
+    {
+        $this->commands([
+            BallotProcess::class,
+        ]);
     }
 
     public function mapFactories()

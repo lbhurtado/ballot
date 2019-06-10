@@ -16,7 +16,7 @@ class BallotProcessTest extends TestCase
 		$artisan = $this->artisan($command);
 
         /*** assert ***/
-		$artisan->expectsOutput('Processing image...')->assertExitCode(0);
+		$artisan->expectsOutput('Processing image...')->expectsOutput('Image processed.')->assertExitCode(0);
 	}
 
 	/** @test */

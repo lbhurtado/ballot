@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 use LBHurtado\Ballot\Models\Ballot;
 use Intervention\Image\Facades\Image;
 use Illuminate\Foundation\Bus\Dispatchable;
-use LBHurtado\Ballot\Exceptions\InvalidQRCodeException;
+use LBHurtado\Ballot\Exceptions\{InvalidQRCodeException, DuplicateEntryException};
+use Illuminate\Database\QueryException;
 
 class ProcessImage
 {
@@ -37,6 +38,8 @@ class ProcessImage
 
             tap((new QrReader($qrCodePath = $this->getQRCodeFromImage($ballot)))->text(), function($code) use ($ballot) {
                 if ($this->validateCode($code)) {
+                    if (Ballot::where(compact('code'))->first())
+                        throw new DuplicateEntryException;
                     $path = $this->moveImage($ballot);
                     $ballot->update([
                         'code' => $code,
@@ -51,6 +54,9 @@ class ProcessImage
         catch (InvalidQRCodeException $e) {
             DB::rollBack();
             unlink($qrCodePath);
+        }
+        catch(DuplicateEntryException $e){
+            DB::rollBack();
         }
         catch (Exception $e) {
             DB::rollBack();
