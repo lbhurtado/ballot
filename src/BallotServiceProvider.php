@@ -14,17 +14,18 @@ class BallotServiceProvider extends ServiceProvider
     const PACKAGE_POSITIONS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_positions_table.php.stub';
     const PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_candidates_table.php.stub';
     const PACKAGE_BALLOTS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_ballots_table.php.stub';
+    
     public function boot()
     {
         $this->publishConfigs();
         $this->publishMigrations();
         $this->mapFactories();
 
-        if ($this->app->runningInConsole()) {
+        // if ($this->app->runningInConsole()) {
             $this->commands([
                 BallotProcess::class,
             ]);
-        }
+        // }
     }
 
     public function register()
