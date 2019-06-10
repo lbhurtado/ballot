@@ -10,6 +10,22 @@ use LBHurtado\Ballot\Models\{Ballot, Position, Candidate, BallotCandidate};
 class BallotTest extends TestCase
 {
 	/** @test */
+	public function model_can_be_persisted_without_attributes()
+	{
+        /*** assert ***/
+        $this->assertEquals(0, Ballot::all()->count());
+
+        /*** act ***/
+		$ballot = Ballot::create();
+
+        /*** assert ***/
+        $this->assertEquals(1, Ballot::all()->count());
+		$this->assertDatabaseHas('ballots', [
+			'id' => 1,
+		]);
+	}
+
+	/** @test */
 	public function model_has_code_attribute()
 	{
         /*** arrange ***/

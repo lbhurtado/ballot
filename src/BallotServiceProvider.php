@@ -3,6 +3,7 @@
 namespace LBHurtado\Ballot;
 
 use Illuminate\Support\ServiceProvider;
+use LBHurtado\Ballot\Console\BallotImage;
 use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
@@ -18,6 +19,12 @@ class BallotServiceProvider extends ServiceProvider
         $this->publishConfigs();
         $this->publishMigrations();
         $this->mapFactories();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                BallotImage::class,
+            ]);
+        }
     }
 
     public function register()

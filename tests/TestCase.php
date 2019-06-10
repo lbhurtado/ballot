@@ -58,5 +58,7 @@ class TestCase extends BaseTestCase
         ]);
         $app['config']->set('ballot.files.image.source', 'tests/storage/app/public/image.jpg');
         $app['config']->set('ballot.files.image.destination', 'tests/storage/app/image.jpg');
+        $app['config']->set('ballot.files.image.qrcode', 'tests/storage/app/qrcode.jpg');
+        $app['config']->set('ballot.files.temp', 'tests/storage/app/');
     }
 }
