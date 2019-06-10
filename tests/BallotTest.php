@@ -91,4 +91,21 @@ class BallotTest extends TestCase
 		Ballot::create(compact('code'));
 		Ballot::create(compact('code'));
 	}
+
+	/** @test */
+	public function new_ballot_persists_ballot_candidates()
+	{
+        /*** arrange ***/
+        $count = Position::all()->count();
+
+        /*** assert ***/
+        $this->assertEquals(0, BallotCandidate::all()->count());
+
+        /*** act ***/
+        $ballot = factory(Ballot::class)->create();
+
+        /*** assert ***/
+        $this->assertEquals($count, BallotCandidate::withBallot($ballot)->count());
+        $this->assertEquals($count, BallotCandidate::all()->count());
+	}
 }

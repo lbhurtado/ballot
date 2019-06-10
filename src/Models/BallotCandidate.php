@@ -7,6 +7,11 @@ use LBHurtado\Ballot\Exceptions\PositionMismatchException;;
 
 class BallotCandidate extends Pivot
 {
+    public function ballot()
+    {
+        return $this->belongsTo(Ballot::class);
+    }
+
     public function position()
     {
         return $this->belongsTo(Position::class);
@@ -38,6 +43,13 @@ class BallotCandidate extends Pivot
         $this->votes = $votes;
 
         return $this;
+    }
+
+    public function scopeWithBallot($query, Ballot $ballot)
+    {
+        return $this->whereHas('ballot', function ($query) use ($ballot) {
+            $query->where('ballots.id', '=', $ballot->id);
+        });
     }
 
     public function scopeWithPosition($query, Position $position)

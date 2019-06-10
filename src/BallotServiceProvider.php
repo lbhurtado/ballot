@@ -4,6 +4,7 @@ namespace LBHurtado\Ballot;
 
 use Illuminate\Support\ServiceProvider;
 use LBHurtado\Ballot\Console\BallotProcess;
+use LBHurtado\Ballot\Observers\BallotObserver;
 use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
@@ -17,6 +18,7 @@ class BallotServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->observeModels();
         $this->publishConfigs();
         $this->publishMigrations();
         $this->publishCommands();
@@ -28,6 +30,11 @@ class BallotServiceProvider extends ServiceProvider
         $this->registerConfigs();
         $this->registerFacades();
         $this->registerModels();
+    }
+
+    protected function observeModels()
+    {
+        app('ballot.ballot')::observe(BallotObserver::class);
     }
 
     protected function publishMigrations()
