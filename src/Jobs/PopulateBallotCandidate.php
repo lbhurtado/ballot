@@ -3,7 +3,6 @@
 namespace LBHurtado\Ballot\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Bus\Dispatchable;
 use LBHurtado\Ballot\Models\{BallotCandidate, Ballot, Position};
 
