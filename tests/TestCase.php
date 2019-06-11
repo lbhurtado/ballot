@@ -7,6 +7,8 @@ use LBHurtado\Ballot\BallotServiceProvider;
 use Intervention\Image\ImageServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use LBHurtado\Tactician\TacticianServiceProvider;
+use Joselfonseca\LaravelTactician\Providers\LaravelTacticianServiceProvider;
 
 class TestCase extends BaseTestCase
 {
@@ -38,6 +40,8 @@ class TestCase extends BaseTestCase
         return [
             ImageServiceProvider::class,
             BallotServiceProvider::class,
+            TacticianServiceProvider::class,
+            LaravelTacticianServiceProvider::class,
         ];
     }
 
