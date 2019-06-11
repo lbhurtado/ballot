@@ -23,7 +23,8 @@ class PopulateBallotCandidate
     	BallotCandidate::withBallot($this->ballot)->delete();
 
 		Position::all()->each(function($position) {
-			$this->ballot->positions()->attach($position, []);
+            for ($seats = 1; $seats <= $position->seats; $seats++)
+			 $this->ballot->positions()->attach($position, []);
 		});
     }
 }

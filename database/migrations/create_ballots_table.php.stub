@@ -40,7 +40,7 @@ class CreateBallotsTable extends Migration
                 $table->foreign('ballot_id')->references('id')->on('ballots')->onDelete('cascade');
                 $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
                 $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
-                $table->unique(['ballot_id', 'position_id']);
+                // $table->unique(['ballot_id', 'position_id']);
                 $table->unique(['ballot_id', 'candidate_id']);
             });
         });

@@ -10,6 +10,7 @@ $factory->define(get_class(app('ballot.position')), function (Faker $faker) {
     
     return [
         'name' => $faker->name,
+        'seats' => $faker->numberBetween(1,12),
         'level' => $faker->numberBetween(1,4),
     ];
 });

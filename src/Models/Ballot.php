@@ -12,12 +12,18 @@ class Ballot extends Model
         'image'
     ];
 
+    protected $hidden = [
+        'created_at', 
+        'updated_at', 
+    ];
+
     public function candidates()
     {
         return $this->belongsToMany(Candidate::class)
             ->withPivot('votes', 'position_id')
             ->using(Pivot::class)
-            ->withTimestamps();
+            ->withTimestamps()
+            ;
     }
 
     public function positions()
@@ -25,7 +31,8 @@ class Ballot extends Model
         return $this->belongsToMany(Position::class, 'ballot_candidate')
             ->withPivot('candidate_id', 'votes')
             ->using(Pivot::class)
-            ->withTimestamps();
+            // ->withTimestamps()
+            ;
     }
 
     public function setImage($file)
@@ -34,6 +41,7 @@ class Ballot extends Model
 
         return $this;
     }
+
     // public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
     // {
     // 	$pivot = $pivot ?? Pivot::conjure($position, $candidate);

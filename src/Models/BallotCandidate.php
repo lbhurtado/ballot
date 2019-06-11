@@ -22,6 +22,14 @@ class BallotCandidate extends Pivot
         return $this->belongsTo(Candidate::class);
     }
 
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['candidate'] = $this->candidate;
+
+        return $array;
+    }
+
     //TODO: throw exception in create and update event - in observable probably
     public function setCandidate(Candidate $candidate)
     {

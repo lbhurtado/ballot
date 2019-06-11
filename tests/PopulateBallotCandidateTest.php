@@ -12,6 +12,8 @@ class PopulateBallotCandidateTest extends TestCase
     {
         /*** arrange ***/
         $positionCount = Position::all()->count();
+        $seatsCount = Position::all()->sum('seats');
+        // dd(Position::all()->sum('seats'));
         $ballot = factory(Ballot::class)->withoutEvents()->create();
 
         /*** assert ***/
@@ -22,14 +24,15 @@ class PopulateBallotCandidateTest extends TestCase
         $job = (new PopulateBallotCandidate($ballot))->handle();
 
         /*** assert ***/
-        $this->assertEquals($positionCount, BallotCandidate::all()->count());
-        $this->assertEquals($positionCount, BallotCandidate::withBallot($ballot)->count());
+        $this->assertEquals($seatsCount, BallotCandidate::all()->count());
+        $this->assertEquals($seatsCount, BallotCandidate::withBallot($ballot)->count());
 
         /*** act ***/
-        (new PopulateBallotCandidate($ballot = factory(Ballot::class)->create()))->handle();
+        for ($i = 1; $i < $iteration = 2; $i++)
+            (new PopulateBallotCandidate($ballot = factory(Ballot::class)->create()))->handle();
 
         /*** assert ***/
-        $this->assertEquals($positionCount*2, BallotCandidate::all()->count());
-        $this->assertEquals($positionCount, BallotCandidate::withBallot($ballot)->count());
+        $this->assertEquals($seatsCount*$iteration, BallotCandidate::all()->count());
+        $this->assertEquals($seatsCount, BallotCandidate::withBallot($ballot)->count());
     }
 }

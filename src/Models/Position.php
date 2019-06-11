@@ -8,9 +8,15 @@ class Position extends Model
 {
     protected $fillable = [
         'name',
+        'seats',
         'level',
     ];
 
+    protected $hidden = [
+        'created_at', 
+        'updated_at', 
+    ];
+    
     public function scopeWithName($query, $name)
     {
     	$query->where('name', $name);

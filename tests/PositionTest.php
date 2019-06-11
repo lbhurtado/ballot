@@ -9,14 +9,15 @@ use Illuminate\Database\QueryException;
 class PositionTest extends TestCase
 {
 	/** @test */
-	public function position_model_has_name_and_level_attribute()
+	public function position_model_has_name_seats_and_level_attribute()
 	{
         /*** arrange ***/
 		$name = $this->faker->name;
 		$level = $this->faker->numberBetween(1,4);
+		$seats = $this->faker->numberBetween(1,12);
 
         /*** act ***/
-		$position = Position::create($attributes = compact('name', 'level'));
+		$position = Position::create($attributes = compact('name', 'seats', 'level'));
 
         /*** assert ***/
 		$this->assertEquals($attributes, Arr::only($position->toArray(), array_keys($attributes)));
@@ -55,12 +56,12 @@ class PositionTest extends TestCase
 		$this->assertDatabaseHas('positions', ['name' => 'President']);
 		$this->assertDatabaseHas('positions', ['name' => 'Vice-President']);
 		$this->assertDatabaseHas('positions', ['name' => 'Senator']);
-		$this->assertDatabaseHas('positions', ['name' => 'Congressman']);
-		$this->assertDatabaseHas('positions', ['name' => 'Governor']);
-		$this->assertDatabaseHas('positions', ['name' => 'Vice-Governor']);
-		$this->assertDatabaseHas('positions', ['name' => 'Board Member']);
-		$this->assertDatabaseHas('positions', ['name' => 'Mayor']);
-		$this->assertDatabaseHas('positions', ['name' => 'Vice-Mayor']);
-		$this->assertDatabaseHas('positions', ['name' => 'Councilor']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Congressman']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Governor']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Vice-Governor']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Board Member']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Mayor']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Vice-Mayor']);
+		// $this->assertDatabaseHas('positions', ['name' => 'Councilor']);
 	}
 }

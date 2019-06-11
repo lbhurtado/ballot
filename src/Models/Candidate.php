@@ -11,6 +11,11 @@ class Candidate extends Model
         'name'
     ];
 
+    protected $hidden = [
+        'created_at', 
+        'updated_at', 
+    ];
+    
 	public static function create(Position $position, array $attributes = [])
 	{
     	$model = tap(static::query()

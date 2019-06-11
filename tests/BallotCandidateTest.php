@@ -176,7 +176,7 @@ class BallotCandidateTest extends TestCase
         /*** arrange ***/
         $ballot = factory(Ballot::class)->withoutEvents()->create();
         $position1 = Position::withName('President')->first();
-        $position2 = Position::withName('Mayor')->first();
+        $position2 = Position::withName('Vice-President')->first();
         $candidate = factory(Candidate::class)->create()->position()->associate($position2);
         $ballot->positions()->attach($position1, []);
 

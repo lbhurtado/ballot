@@ -9,6 +9,7 @@ class ApiTest extends TestCase
     /** @test */
     public function action_ultimately_updates_a_ballot_when_invoked_2_change_this()
     {
+
         /*** arrange ***/
     	$ballot = factory(Ballot::class)->create();
     	$candidate = Candidate::all()->random();
@@ -23,20 +24,19 @@ class ApiTest extends TestCase
 			'votes' => null,
 		]);
 
-        /*** act */
+        /*** act ***/
 		$response = $this->json('POST', '/api/ballot/candidate', [
 			'ballot_id' => $ballot->id,
 			'candidate_id' => $candidate->id, 
         ]);
 
         /*** assert ***/
-
-		$response->assertStatus(200);
-
-		// $response->assertJsonFragment([
-		// 	'code' => $candidate->code,
-		// 	'name' => $candidate->name,
-		// ]);
+		$response
+			->assertStatus(200)
+			->assertJsonFragment([
+				'votes' => null,
+			])
+			;
 		
 		$this->assertDatabaseHas('ballot_candidate', [
 			'ballot_id' => $ballot->id,
@@ -44,5 +44,12 @@ class ApiTest extends TestCase
 			'candidate_id' => $candidate->id,
 			'votes' => 1,
 		]);
+
+		$this->assertDatabaseHas('ballot_candidate', [
+			'candidate_id' => null,
+			'votes' => null,
+		]);
+
+		// dd($response->getData());
     }
 }

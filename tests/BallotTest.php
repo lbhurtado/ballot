@@ -96,7 +96,7 @@ class BallotTest extends TestCase
 	public function new_ballot_persists_ballot_candidates()
 	{
         /*** arrange ***/
-        $count = Position::all()->count();
+        $seats = Position::all()->sum('seats');
 
         /*** assert ***/
         $this->assertEquals(0, BallotCandidate::all()->count());
@@ -105,7 +105,7 @@ class BallotTest extends TestCase
         $ballot = factory(Ballot::class)->create();
 
         /*** assert ***/
-        $this->assertEquals($count, BallotCandidate::withBallot($ballot)->count());
-        $this->assertEquals($count, BallotCandidate::all()->count());
+        $this->assertEquals($seats, BallotCandidate::withBallot($ballot)->count());
+        $this->assertEquals($seats, BallotCandidate::all()->count());
 	}
 }

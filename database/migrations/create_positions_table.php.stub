@@ -22,6 +22,7 @@ class CreatePositionsTable extends Migration
 			Schema::create($table_name, function(Blueprint $table) {
 	            $table->increments('id');
 	            $table->string('name')->unique();
+	            $table->tinyInteger('seats')->default(1);
 	            $table->tinyInteger('level')->unsigned()->index();
 	            $table->timestamps();
 			});			
