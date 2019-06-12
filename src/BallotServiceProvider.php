@@ -12,10 +12,12 @@ use \Illuminate\Database\Eloquent\FactoryBuilder;
 class BallotServiceProvider extends ServiceProvider
 {
     const APPLICATION_POSITION_SEEDER = 'seeds/PositionSeeder.php';
+    const APPLICATION_CANDIDATE_SEEDER = 'seeds/CandidateSeeder.php';
     const PACKAGE_ROUTE_API = __DIR__.'/../routes/api.php';
     const PACKAGE_BALLOT_CONFIG = __DIR__.'/../config/config.php';
     const PACKAGE_FACTORY_DIR = __DIR__ . '/../database/factories';
     const PACKAGE_POSITION_SEEDER = __DIR__.'/../database/seeds/PositionSeeder.php';
+    const PACKAGE_CANDIDATE_SEEDER = __DIR__.'/../database/seeds/CandidateSeeder.php';
     const PACKAGE_TACTICIAN_FIELDS_CONFIG = __DIR__ . '/../config/tactician.fields.php';
     const PACKAGE_POSITIONS_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_positions_table.php.stub';
     const PACKAGE_CANDIDATES_TABLE_MIGRATION_STUB = __DIR__.'/../database/migrations/create_candidates_table.php.stub';
@@ -75,6 +77,7 @@ class BallotServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 self::PACKAGE_POSITION_SEEDER => database_path(self::APPLICATION_POSITION_SEEDER),
+                self::PACKAGE_CANDIDATE_SEEDER => database_path(self::APPLICATION_CANDIDATE_SEEDER),
             ], 'ballot-seeds');
         }
     }
