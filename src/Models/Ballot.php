@@ -12,26 +12,12 @@ class Ballot extends Model
         'image'
     ];
 
-    protected $hidden = [
-        'created_at', 
-        'updated_at', 
-    ];
-
-    public function candidates()
-    {
-        return $this->belongsToMany(Candidate::class, 'ballot_candidate')
-            ->withPivot('votes', 'position_id')
-            ->using(Pivot::class)
-            ->withTimestamps()
-            ;
-    }
-
     public function positions()
     {
         return $this->belongsToMany(Position::class, 'ballot_candidate')
             ->withPivot('candidate_id', 'votes')
             ->using(Pivot::class)
-            // ->withTimestamps()
+            ->withTimestamps()
             ;
     }
 
@@ -42,20 +28,21 @@ class Ballot extends Model
         return $this;
     }
 
-    public function addCandidate(Candidate $candidate, Pivot $pivot)
+    public function addPivot(Candidate $candidate)
     {
-        return $this->candidates()->attach($candidate, $pivot->getAttributes());
-    }
+        tap((new Pivot)->setCandidate($candidate), function ($pivot) use ($candidate) {
+            $this->positions()->attach($candidate->position_id, $pivot->getAttributes());
+        });
 
-    public function updateCandidate(Candidate $candidate, Pivot $pivot)
+        return $this;
+    } 
+
+    public function updatePivot(Candidate $candidate)
     {
-        return $this->candidates()->updateExistingPivot($candidate, $pivot->getAttributes());
+        tap((new Pivot)->setCandidate($candidate), function ($pivot) use ($candidate) {
+            $this->positions()->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
+        });
+
+        return $this;
     }    
-
-    // public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
-    // {
-    // 	$pivot = $pivot ?? Pivot::conjure($position, $candidate);
-    	
-    //     return $this->candidates()->attach($candidate, $pivot->getAttributes());
-    // }
 }

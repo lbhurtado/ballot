@@ -11,11 +11,6 @@ class Position extends Model
         'seats',
         'level',
     ];
-
-    protected $hidden = [
-        'created_at', 
-        'updated_at', 
-    ];
     
     public function scopeWithName($query, $name)
     {

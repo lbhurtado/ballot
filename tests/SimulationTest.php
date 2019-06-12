@@ -42,13 +42,13 @@ class SimulationTest extends TestCase
     {
         /*** arrange ***/
     	$ballot = factory(Ballot::class)->create();
-    	echo "\n";
+    	// echo "\n";
     	$i = 0;
     	foreach ($this->ballots_array as $ballot_records) {
     		foreach ($ballot_records as $ballot_record) {
 
     			$candidate = Candidate::where('code', $ballot_record[1])->first();
-    			echo $candidate->code . "\n";
+    			// echo $candidate->code . "\n";
 				$response = $this->json('POST', '/api/ballot/candidate', [
 					'ballot_id' => $ballot->id,
 					'candidate_id' => $candidate->id, 

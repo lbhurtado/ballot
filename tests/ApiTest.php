@@ -42,12 +42,7 @@ class ApiTest extends TestCase
         ]);
 
         /*** assert ***/
-		$response
-			->assertStatus(200)
-			// ->assertJsonFragment([
-			// 	'votes' => null,
-			])
-			;
+		$response->assertStatus(200);
 		
 		$this->assertDatabaseHas('ballot_candidate', [
 			'ballot_id' => $this->ballot->id,
@@ -62,11 +57,7 @@ class ApiTest extends TestCase
 			'candidate_id' => $this->candidate2->id, 
         ]);
 
-		dd($response->getData());
-
-		$response
-			->assertStatus(200)
-			;
+		$response->assertStatus(200);
 
         // tap((new BallotCandidate)->setCandidate($this->candidate2), function ($pivot) {
         //     $this->ballot

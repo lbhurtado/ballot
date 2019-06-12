@@ -45,13 +45,6 @@ class BallotCandidate extends Pivot
         return $this;
     }
 
-    public function setPosition(Position $position)
-    {
-        $this->position()->associate($position);
-
-        return $this;
-    }
-
     public function setVotes($votes)
     {
         $this->votes = $votes;

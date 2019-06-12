@@ -24,15 +24,6 @@ class UpdateBallotCandidate
 
     public function handle()
     {
-        tap((new BallotCandidate)->setCandidate($this->candidate), function ($pivot) {
-            $this->ballot
-                ->positions()
-                ->updateExistingPivot(
-                    $this->candidate->position_id, 
-                    $pivot->getAttributes()
-                );
-            // if ($this->candidate->id == 3)
-            //     dd($this->ballot->positions()->where('candidate_id', $this->candidate->id)->first());
-        });
+        $this->ballot->updatePivot($this->candidate);
     }
 }
