@@ -22,7 +22,7 @@ class UpdateBallotCandidateAction extends ActionAbstract implements ActionInterf
 
     public function getFields(): array
     {
-        return optional(config('tactician.fields'), function ($mapping) {
+        return optional(config('tactician.fields.update'), function ($mapping) {
             return array_keys($mapping);
         });
     }
