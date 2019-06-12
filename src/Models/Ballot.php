@@ -19,7 +19,7 @@ class Ballot extends Model
 
     public function candidates()
     {
-        return $this->belongsToMany(Candidate::class)
+        return $this->belongsToMany(Candidate::class, 'ballot_candidate')
             ->withPivot('votes', 'position_id')
             ->using(Pivot::class)
             ->withTimestamps()
@@ -41,6 +41,16 @@ class Ballot extends Model
 
         return $this;
     }
+
+    public function addCandidate(Candidate $candidate, Pivot $pivot)
+    {
+        return $this->candidates()->attach($candidate, $pivot->getAttributes());
+    }
+
+    public function updateCandidate(Candidate $candidate, Pivot $pivot)
+    {
+        return $this->candidates()->updateExistingPivot($candidate, $pivot->getAttributes());
+    }    
 
     // public function addCandidate(Position $position, Candidate $candidate = null, Pivot $pivot = null)
     // {

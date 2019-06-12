@@ -18,23 +18,21 @@ class UpdateBallotCandidate
 
     public function __construct(int $ballotId, int $candidateId)
     {
-        $this->ballot = Ballot::find($ballotId);
-        $this->candidate = Candidate::find($candidateId);
+        $this->ballot = Ballot::findOrFail($ballotId);
+        $this->candidate = Candidate::findOrFail($candidateId);
     }
 
     public function handle()
     {
-        $this->getPivot()
-            ->setCandidate($this->candidate)
-            ->save()
-            ;
-    }
-
-    protected function getPivot()
-    {
-        return BallotCandidate::where('ballot_id', $this->ballot->id)
-            ->where('position_id', $this->candidate->position->id)
-            ->first()
-            ;
+        tap((new BallotCandidate)->setCandidate($this->candidate), function ($pivot) {
+            $this->ballot
+                ->positions()
+                ->updateExistingPivot(
+                    $this->candidate->position_id, 
+                    $pivot->getAttributes()
+                );
+            // if ($this->candidate->id == 3)
+            //     dd($this->ballot->positions()->where('candidate_id', $this->candidate->id)->first());
+        });
     }
 }

@@ -39,9 +39,15 @@ class BallotCandidate extends Pivot
                     throw new PositionMismatchException;            
         });
 
-
         $this->candidate()->associate($candidate);
         $this->votes = 1;
+
+        return $this;
+    }
+
+    public function setPosition(Position $position)
+    {
+        $this->position()->associate($position);
 
         return $this;
     }
