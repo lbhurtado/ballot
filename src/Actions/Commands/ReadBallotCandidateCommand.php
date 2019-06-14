@@ -6,18 +6,18 @@ use LBHurtado\Tactician\Contracts\CommandInterface;
 
 class ReadBallotCandidateCommand implements CommandInterface
 {
-    /** @var integer */
-	public $ballot_id;
+    /** @var string */
+    public $ballot_code;
 
-    public function __construct(int $ballot_id)
+    public function __construct(string $ballot_code)
     {
-    	$this->ballot_id = $ballot_id;
+        $this->ballot_code = $ballot_code;
     }
 
     public function getProperties(): array
     {
     	return [
-    		'ballot_id' => $this->ballot_id,
+            'ballot_code' => $this->ballot_code,
     	];
     }
 }

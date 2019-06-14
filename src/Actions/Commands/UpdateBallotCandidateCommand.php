@@ -6,22 +6,22 @@ use LBHurtado\Tactician\Contracts\CommandInterface;
 
 class UpdateBallotCandidateCommand implements CommandInterface
 {
-    /** @var integer */
-	public $ballot_id;
+    /** @var string */
+    public $ballot_code;
 
     /** @var integer */
 	public $candidate_id;
 
-    public function __construct(int $ballot_id, int $candidate_id)
+    public function __construct(string $ballot_code, int $candidate_id)
     {
-    	$this->ballot_id = $ballot_id;
+        $this->ballot_code = $ballot_code;
     	$this->candidate_id = $candidate_id;
     }
 
     public function getProperties(): array
     {
     	return [
-    		'ballot_id' => $this->ballot_id,
+            'ballot_code' => $this->ballot_code,
     		'candidate_id' => $this->candidate_id,
     	];
     }

@@ -24,9 +24,10 @@ class UpdateBallotCandidateActionTest extends TestCase
         /*** arrange ***/
     	$ballot = factory(Ballot::class)->create();
         $ballot_id = $ballot->id;
+        $ballot_code = $ballot->code;
     	$candidate1 = Candidate::where('code', 'MACAPAGAL')->first();
     	$candidate_id = $candidate1->id;
-		$request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_id', 'candidate_id'));
+		$request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_id'));
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [
@@ -52,7 +53,7 @@ class UpdateBallotCandidateActionTest extends TestCase
         /*** arrange ***/
         $candidate2 = Candidate::where('code', 'PELAEZ')->first();;
         $candidate_id = $candidate2->id;
-        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_id', 'candidate_id'));
+        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_id'));
 
         /*** assert ***/
         $this->assertDatabaseHas('ballot_candidate', [

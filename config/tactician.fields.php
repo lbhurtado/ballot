@@ -2,10 +2,10 @@
 
 return [
 	'read' => [
-	    'ballot_id' => 'required|exists:ballots,id',
+	    'ballot_code' => 'required|exists:ballots,code', 
 	],
 	'update' => [
-	    'ballot_id' => 'required|exists:ballots,id',
+	    'ballot_code' => 'required|exists:ballots,code', 
 	    'candidate_id' => 'required|exists:candidates,id',
 	],
 ];

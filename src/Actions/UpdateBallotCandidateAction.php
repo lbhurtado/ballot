@@ -4,7 +4,6 @@ namespace LBHurtado\Ballot\Actions;
 
 use LBHurtado\Tactician\Classes\ActionAbstract;
 use LBHurtado\Tactician\Contracts\ActionInterface;
-use LBHurtado\Ballot\Requests\UpdateBallotCandidateRequest;
 use LBHurtado\Ballot\Actions\Commands\UpdateBallotCandidateCommand;
 use LBHurtado\Ballot\Actions\Handlers\UpdateBallotCandidateHandler;
 use LBHurtado\Ballot\Actions\Responders\UpdateBallotCandidateResponder;
@@ -22,7 +21,7 @@ class UpdateBallotCandidateAction extends ActionAbstract implements ActionInterf
     public function __construct(
         \Joselfonseca\LaravelTactician\CommandBusInterface $bus, 
         \Opis\Events\EventDispatcher $dispatcher, 
-        UpdateBallotCandidateRequest $request)
+        \LBHurtado\Ballot\Requests\UpdateBallotCandidateRequest $request)
     {
         parent::__construct($bus, $dispatcher, $request);
     }

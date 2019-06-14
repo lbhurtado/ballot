@@ -25,8 +25,9 @@ class ReadBallotCandidateActionTest extends TestCase
     	$ballot = factory(Ballot::class)->create();
     	$candidate = Candidate::all()->random();
     	$ballot_id = $ballot->id;
+        $ballot_code = $ballot->code;
     	$candidate_id = $candidate->id;
-		$request = Request::create('/api/ballot/candidate', 'GET', $attributes = compact('ballot_id'));
+		$request = Request::create('/api/ballot/candidate', 'GET', $attributes = compact('ballot_code'));
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [

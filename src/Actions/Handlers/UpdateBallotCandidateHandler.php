@@ -11,17 +11,8 @@ class UpdateBallotCandidateHandler implements HandlerInterface
 {
     public function handle(CommandInterface $command)
     {
-    	// $ballot = Ballot::findOrFail($command->ballot_id);
-    	// $candidate = Candidate::findOrFail($command->candidate_id);
-     //    tap((new BallotCandidate)->setCandidate($candidate), function ($pivot) use ($ballot, $candidate) {
-     //        $ballot
-     //            ->positions()
-     //            ->updateExistingPivot(
-     //                $candidate->position_id, 
-     //                $pivot->getAttributes()
-     //            );
-     //    });
+        $ballot_id = optional(Ballot::where('code', $command->ballot_code)->first())->id;
 
-    	UpdateBallotCandidate::dispatch($command->ballot_id, $command->candidate_id);
+        UpdateBallotCandidate::dispatch($ballot_id, $command->candidate_id);
     }
 }
