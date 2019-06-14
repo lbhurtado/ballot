@@ -3,10 +3,10 @@
 namespace LBHurtado\Ballot\Tests;
 
 use Opis\Events\EventDispatcher;
-use Illuminate\Support\Facades\Request;
 use LBHurtado\Ballot\Models\{Ballot, Candidate};
 use Joselfonseca\LaravelTactician\CommandBusInterface;
 use LBHurtado\Ballot\Actions\UpdateBallotCandidateAction;
+use LBHurtado\Ballot\Requests\UpdateBallotCandidateRequest as Request;
 
 class UpdateBallotCandidateActionTest extends TestCase
 {
