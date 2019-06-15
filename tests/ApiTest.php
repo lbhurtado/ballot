@@ -36,7 +36,7 @@ class ApiTest extends TestCase
 			'ballot_id' => $this->ballot->id,
 			'position_id' => $this->candidate1->position_id, 
 			'candidate_id' => null,
-			'seat_id' => null,
+			'seat_id' => 1,
 			'votes' => null,
 		]);
 
@@ -112,7 +112,7 @@ class ApiTest extends TestCase
 			'ballot_id' => $this->ballot->id,
 			'position_id' => $this->candidate1->position->id, 
 			'candidate_id' => null,
-			'seat_id' => null,
+			'seat_id' => 1,
 			'votes' => null,
 		]);
 
@@ -130,7 +130,7 @@ class ApiTest extends TestCase
 			'ballot_id' => $this->ballot->id,
 			'position_id' => $this->candidate1->position->id, 
 			'candidate_id' => null,
-			'seat_id' => null,
+			'seat_id' => 1,
 			'votes' => null,
 		]);
     }

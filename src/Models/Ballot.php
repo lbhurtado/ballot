@@ -2,6 +2,7 @@
 
 namespace LBHurtado\Ballot\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use LBHurtado\Ballot\Models\BallotCandidate as Pivot;
 
@@ -39,13 +40,12 @@ class Ballot extends Model
 
     public function updatePivot(Candidate $candidate, int $seatId = 1)
     {
+        DB::update('update `ballot_candidate` set `candidate_id` = ?, `seat_id` = ?, `votes` = 1 where `ballot_id` = ? and `position_id` = ?', [$candidate->id, $seatId, $this->id, $candidate->position_id]);
 
-        // dd($this->positions()->where('position_id', $candidate->position_id)->first());
-
-        tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate, $seatId) {
-            // $this->positions()->updateExistingPivot($candidate->position_id, []);
-            $this->positions()->where('seat_id', $seatId)->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
-        });
+        DB::commit();
+        // tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate, $seatId) {
+        //     $this->positions()->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
+        // });
 
         return $this;
     }    

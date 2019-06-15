@@ -36,7 +36,7 @@ class UpdateBallotCandidateActionTest extends TestCase
 			'ballot_id' => $ballot->id,
 			'position_id' => $candidate1->position->id, 
 			'candidate_id' => null,
-            'seat_id' => null,
+            'seat_id' => 1,
 			'votes' => null,
 		]);
 
@@ -66,7 +66,7 @@ class UpdateBallotCandidateActionTest extends TestCase
             'ballot_id' => $ballot->id,
             'position_id' => $candidate2->position_id, 
             'candidate_id' => null,
-            'seat_id' => null,
+            'seat_id' => 1,
             'votes' => null,
         ]);
 

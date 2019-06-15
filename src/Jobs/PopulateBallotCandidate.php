@@ -24,7 +24,7 @@ class PopulateBallotCandidate
 
 		Position::all()->each(function($position) {
             for ($seats = 1; $seats <= $position->seats; $seats++)
-			 $this->ballot->positions()->attach($position, []);
+			     $this->ballot->positions()->attach($position, ['seat_id' => $seats]);
 		});
     }
 }
