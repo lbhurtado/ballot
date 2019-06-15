@@ -42,9 +42,9 @@ class Ballot extends Model
 
         // dd($this->positions()->where('position_id', $candidate->position_id)->first());
 
-        tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate) {
-            $this->positions()->updateExistingPivot($candidate->position_id, []);
-            $this->positions()->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
+        tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate, $seatId) {
+            // $this->positions()->updateExistingPivot($candidate->position_id, []);
+            $this->positions()->where('seat_id', $seatId)->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
         });
 
         return $this;
