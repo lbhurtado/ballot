@@ -24,7 +24,7 @@ class UpdateBallotCandidateTest extends TestCase
         $this->assertEquals(0, $pivot->sum('votes'));
 
         /*** act ***/
-        $job = (new UpdateBallotCandidate($ballot->id, $candidate->id))->handle();
+        $job = (new UpdateBallotCandidate($ballot->id, $candidate->id, 1))->handle();
         $pivot->refresh();
 
         /*** assert ***/

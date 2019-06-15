@@ -15,7 +15,7 @@ class Ballot extends Model
     public function positions()
     {
         return $this->belongsToMany(Position::class, 'ballot_candidate')
-            ->withPivot('candidate_id', 'votes')
+            ->withPivot('candidate_id', 'votes', 'seat_id')
             ->using(Pivot::class)
             ->withTimestamps()
             ;
@@ -28,21 +28,21 @@ class Ballot extends Model
         return $this;
     }
 
-    public function addPivot(Candidate $candidate)
+    public function addPivot(Candidate $candidate, int $seatId = 1)
     {
-        tap((new Pivot)->setCandidate($candidate), function ($pivot) use ($candidate) {
+        tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate) {
             $this->positions()->attach($candidate->position_id, $pivot->getAttributes());
         });
 
         return $this;
     } 
 
-    public function updatePivot(Candidate $candidate)
+    public function updatePivot(Candidate $candidate, int $seatId = 1)
     {
 
         // dd($this->positions()->where('position_id', $candidate->position_id)->first());
 
-        tap((new Pivot)->setCandidate($candidate), function ($pivot) use ($candidate) {
+        tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate) {
             $this->positions()->updateExistingPivot($candidate->position_id, []);
             $this->positions()->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
         });

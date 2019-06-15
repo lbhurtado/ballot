@@ -31,7 +31,7 @@ class BallotCandidate extends Pivot
     }
 
     //TODO: throw exception in create and update event - in observable probably
-    public function setCandidate(Candidate $candidate)
+    public function setCandidate(Candidate $candidate, int $seatId = 1)
     {
         optional($this->position, function ($position) use ($candidate) {
             if ($candidate)
@@ -40,6 +40,7 @@ class BallotCandidate extends Pivot
         });
 
         $this->candidate()->associate($candidate);
+        $this->seat_id = $seatId;
         $this->votes = 1;
 
         return $this;

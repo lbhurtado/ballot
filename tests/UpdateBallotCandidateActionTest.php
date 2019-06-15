@@ -28,13 +28,15 @@ class UpdateBallotCandidateActionTest extends TestCase
     	$candidate1 = Candidate::where('code', 'MACAPAGAL')->first();
     	$candidate_id = $candidate1->id;
         $candidate_code = $candidate1->code;
-		$request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code'));
+        $seat_id = 1;
+		$request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code', 'seat_id'));
 
         /*** assert ***/
 		$this->assertDatabaseHas('ballot_candidate', [
 			'ballot_id' => $ballot->id,
 			'position_id' => $candidate1->position->id, 
 			'candidate_id' => null,
+            'seat_id' => null,
 			'votes' => null,
 		]);
 
@@ -48,6 +50,7 @@ class UpdateBallotCandidateActionTest extends TestCase
 			'ballot_id' => $ballot->id,
 			'position_id' => $candidate1->position->id, 
 			'candidate_id' => $candidate1->id,
+            'seat_id' => 1,
 			'votes' => 1,
 		]);
 
@@ -55,13 +58,15 @@ class UpdateBallotCandidateActionTest extends TestCase
         $candidate2 = Candidate::where('code', 'PELAEZ')->first();
         $candidate_id = $candidate2->id;
         $candidate_code = $candidate2->code;
-        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code'));
+        $seat_id = 1;
+        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code', 'seat_id'));
 
         /*** assert ***/
         $this->assertDatabaseHas('ballot_candidate', [
             'ballot_id' => $ballot->id,
             'position_id' => $candidate2->position_id, 
             'candidate_id' => null,
+            'seat_id' => null,
             'votes' => null,
         ]);
 
@@ -75,12 +80,14 @@ class UpdateBallotCandidateActionTest extends TestCase
             'ballot_id' => $ballot->id,
             'position_id' => $candidate1->position_id, 
             'candidate_id' => $candidate1->id,
+            'seat_id' => 1,
             'votes' => 1,
         ]);
         $this->assertDatabaseHas('ballot_candidate', [
             'ballot_id' => $ballot->id,
             'position_id' => $candidate2->position_id, 
             'candidate_id' => $candidate2->id,
+            'seat_id' => 1,
             'votes' => 1,
         ]);
 
@@ -88,13 +95,15 @@ class UpdateBallotCandidateActionTest extends TestCase
         $candidate3 = Candidate::where('code', 'OSMEÑA')->first();
         $candidate_id = $candidate3->id;
         $candidate_code = $candidate3->code;
-        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code'));
+        $seat_id = 1;
+        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code', 'seat_id'));
 
         /*** assert ***/
         $this->assertDatabaseHas('ballot_candidate', [
             'ballot_id' => $ballot->id,
             'position_id' => $candidate3->position_id, 
             'candidate_id' => $candidate2->id,
+            'seat_id' => 1,
             'votes' => 1,
         ]);
 
@@ -107,12 +116,14 @@ class UpdateBallotCandidateActionTest extends TestCase
             'ballot_id' => $ballot->id,
             'position_id' => $candidate3->position_id, 
             'candidate_id' => $candidate3->id,
+            'seat_id' => 1,
             'votes' => 1,
         ]);
         $this->assertDatabaseMissing('ballot_candidate', [
             'ballot_id' => $ballot->id,
             'position_id' => $candidate3->position_id, 
             'candidate_id' => $candidate2->id,
+            'seat_id' => 1,
             'votes' => 1,
         ]);
     }	

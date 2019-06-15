@@ -13,7 +13,8 @@ class UpdateBallotCandidateHandler implements HandlerInterface
     {
         $ballot_id = optional(Ballot::where('code', $command->ballot_code)->first())->id;
         $candidate_id = optional(Candidate::where('code', $command->candidate_code)->first())->id;
+        $seat_id = $command->seat_id;
 
-        UpdateBallotCandidate::dispatch($ballot_id, $candidate_id);
+        UpdateBallotCandidate::dispatch($ballot_id, $candidate_id, $seat_id);
     }
 }

@@ -16,14 +16,18 @@ class UpdateBallotCandidate
     /** @var \LBHurtado\Ballot\Models\Candidate */
     protected $candidate;
 
-    public function __construct(int $ballotId, int $candidateId)
+    /** @var integer */
+    protected $seatId;
+
+    public function __construct(int $ballotId, int $candidateId, int $seatId = 1)
     {
         $this->ballot = Ballot::findOrFail($ballotId);
         $this->candidate = Candidate::findOrFail($candidateId);
+        $this->seatId = $seatId;
     }
 
     public function handle()
     {
-        $this->ballot->updatePivot($this->candidate);
+        $this->ballot->updatePivot($this->candidate, $this->seatId);
     }
 }

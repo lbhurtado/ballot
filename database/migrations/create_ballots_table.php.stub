@@ -34,14 +34,14 @@ class CreateBallotsTable extends Migration
                 $table->increments('id');
                 $table->integer('ballot_id')->unsigned()->index();
                 $table->integer('position_id')->unsigned()->nullable()->index();
+                $table->tinyInteger('seat_id')->unsigned()->nullable()->index();
                 $table->integer('candidate_id')->unsigned()->nullable()->index();
                 $table->enum('votes', [1])->nullable();
                 $table->timestamps();
                 $table->foreign('ballot_id')->references('id')->on('ballots')->onDelete('cascade');
                 $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
                 $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
-                // $table->unique(['ballot_id', 'position_id']);
-                $table->unique(['ballot_id', 'candidate_id']);
+                $table->unique(['ballot_id', 'candidate_id', 'seat_id']);
             });
         });
 	}
