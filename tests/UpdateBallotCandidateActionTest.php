@@ -52,7 +52,7 @@ class UpdateBallotCandidateActionTest extends TestCase
 		]);
 
         /*** arrange ***/
-        $candidate2 = Candidate::where('code', 'PELAEZ')->first();;
+        $candidate2 = Candidate::where('code', 'PELAEZ')->first();
         $candidate_id = $candidate2->id;
         $candidate_code = $candidate2->code;
         $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code'));
@@ -80,6 +80,38 @@ class UpdateBallotCandidateActionTest extends TestCase
         $this->assertDatabaseHas('ballot_candidate', [
             'ballot_id' => $ballot->id,
             'position_id' => $candidate2->position_id, 
+            'candidate_id' => $candidate2->id,
+            'votes' => 1,
+        ]);
+
+        /*** arrange ***/
+        $candidate3 = Candidate::where('code', 'OSMEÑA')->first();
+        $candidate_id = $candidate3->id;
+        $candidate_code = $candidate3->code;
+        $request = Request::create('/api/ballot/candidate', 'POST', $attributes = compact('ballot_code', 'candidate_code'));
+
+        /*** assert ***/
+        $this->assertDatabaseHas('ballot_candidate', [
+            'ballot_id' => $ballot->id,
+            'position_id' => $candidate3->position_id, 
+            'candidate_id' => $candidate2->id,
+            'votes' => 1,
+        ]);
+
+        /*** act ***/
+        $action = new UpdateBallotCandidateAction($this->bus, $this->dispatcher, $request);
+        $response = $action->__invoke();
+
+        /*** assert ***/
+        $this->assertDatabaseHas('ballot_candidate', [
+            'ballot_id' => $ballot->id,
+            'position_id' => $candidate3->position_id, 
+            'candidate_id' => $candidate3->id,
+            'votes' => 1,
+        ]);
+        $this->assertDatabaseMissing('ballot_candidate', [
+            'ballot_id' => $ballot->id,
+            'position_id' => $candidate3->position_id, 
             'candidate_id' => $candidate2->id,
             'votes' => 1,
         ]);
