@@ -6,6 +6,6 @@ return [
 	],
 	'update' => [
 	    'ballot_code' => 'required|exists:ballots,code', 
-	    'candidate_id' => 'required|exists:candidates,id',
+	    'candidate_code' => 'required|exists:candidates,code',
 	],
 ];

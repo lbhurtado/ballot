@@ -38,7 +38,7 @@ class ApiTest extends TestCase
         /*** act ***/
 		$response = $this->json('POST', '/api/ballot/candidate', [
 			'ballot_code' => $this->ballot->code,
-			'candidate_id' => $this->candidate1->id, 
+			'candidate_code' => $this->candidate1->code, 
         ]);
 
         /*** assert ***/
@@ -54,7 +54,7 @@ class ApiTest extends TestCase
         /*** act ***/
 		$response = $this->json('POST', '/api/ballot/candidate', [
 			'ballot_code' => $this->ballot->code,
-			'candidate_id' => $this->candidate2->id, 
+			'candidate_code' => $this->candidate2->code, 
         ]);
 
 		$response->assertStatus(200);
@@ -114,7 +114,7 @@ class ApiTest extends TestCase
         /*** act ***/
 		$updateResponse = $this->json('POST', '/api/ballot/candidate', [
 			'ballot_code' => $this->ballot->code,
-			'candidate_id' => $this->candidate1->id, 
+			'candidate_code' => $this->candidate1->code, 
         ]);
 
 		$readResponse = $this->json('GET', '/api/ballot/candidate', [
@@ -127,7 +127,7 @@ class ApiTest extends TestCase
         /*** act ***/
 		$updateResponse = $this->json('POST', '/api/ballot/candidate', [
 			'ballot_code' => $this->ballot->code,
-			'candidate_id' => $this->candidate2->id, 
+			'candidate_code' => $this->candidate2->code, 
         ]);
 
 		$readResponse = $this->json('GET', '/api/ballot/candidate', [
