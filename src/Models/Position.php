@@ -16,4 +16,9 @@ class Position extends Model
     {
     	$query->where('name', $name);
     }
+
+    public function candidates()
+    {
+    	return $this->hasMany(Candidate::class);
+    }
 }
