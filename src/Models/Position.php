@@ -19,6 +19,6 @@ class Position extends Model
 
     public function candidates()
     {
-    	return $this->hasMany(Candidate::class)->sortByDec('votes');
+    	return $this->hasMany(Candidate::class)->sortByDesc('votes');
     }
 }
