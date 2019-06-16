@@ -25,4 +25,9 @@ class Candidate extends Model
     {
     	return $this->belongsTo(Position::class);
     }
+
+    public function votes()
+    {
+        return $this->hasMany(BallotCandidate::class)->count();
+    }
 }
