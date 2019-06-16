@@ -5,7 +5,7 @@ namespace LBHurtado\Ballot\Tests;
 use WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Database\QueryException;
-use LBHurtado\Ballot\Models\{Candidate, Position};
+use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 
 class CandidateTest extends TestCase
 {
@@ -64,5 +64,21 @@ class CandidateTest extends TestCase
         /*** act ***/
         factory(Candidate::class)->create(compact('name'));
         factory(Candidate::class)->create(compact('name'));
+	}
+
+	/** @test */
+	public function candidate_has_many_ballot_candidates()
+	{
+        /*** arrange ***/
+		$candidate = Candidate::where('code', 'MACAPAGAL')->first();
+		$ballot1 = factory(Ballot::class)->create();
+		$ballot2 = factory(Ballot::class)->create();
+
+        /*** act ***/
+		$ballot1->updatePivot($candidate, 1);
+		$ballot2->updatePivot($candidate, 1);
+
+        /*** assert ***/
+		$this->assertEquals(2, $candidate->votes->count());
 	}
 }

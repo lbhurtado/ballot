@@ -28,6 +28,6 @@ class Candidate extends Model
 
     public function votes()
     {
-        return $this->hasMany(BallotCandidate::class)->count();
+        return $this->hasMany(BallotCandidate::class);
     }
 }
