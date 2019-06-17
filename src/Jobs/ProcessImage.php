@@ -43,7 +43,7 @@ class ProcessImage
                     $path = $this->moveImage($ballot);
                     $ballot->update([
                         'code' => $code,
-                        'image' => basename($path),
+                        'image' => 'storage/'.basename($path),
                     ]);
                 }
                 else

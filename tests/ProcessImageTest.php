@@ -55,7 +55,7 @@ class ProcessImageTest extends TestCase
 	{
         /*** arrange ***/
         $code = config('ballot.qrcode.test');
-        $path = basename($this->destinationImageFile);
+        $path = 'storage/'.basename($this->destinationImageFile);
 
         /*** act ***/
         $job = (new ProcessImage)->handle();
