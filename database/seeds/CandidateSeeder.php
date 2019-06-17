@@ -57,7 +57,7 @@ class CandidateSeeder extends Seeder
                     // ['code' => 'OFEMARIA',  'name' => 'Francisco Ofemaria'],
                     // ['code' => 'HIDALGO',   'name' => 'Ernesto Hidalgo'],
                     // ['code' => 'JAVINEZ',   'name' => 'Leon Javinez Sr.'],
-                    // ['code' => 'BRIONES', 'name' => 'ose Briones'],
+                    // ['code' => 'BRIONES', 'name' => 'Jose Briones'],
                 ],
 
             ],
