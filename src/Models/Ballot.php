@@ -40,7 +40,15 @@ class Ballot extends Model
 
     public function updatePivot(Candidate $candidate, int $seatId = 1)
     {
-        DB::update('update `ballot_candidate` set `candidate_id` = ?, `votes` = 1 where `ballot_id` = ? and `position_id` = ? and  `seat_id` = ?', [$candidate->id, $this->id, $candidate->position_id, $seatId]);
+        if ($candidate->votes()->whereHas('ballot', function ($q) {$q->where('id', $this->id);})->count() > 0) {
+            $candidate_id = null;
+            $votes = null;
+        }
+        else {
+            $candidate_id = $candidate->id;
+            $votes = 1;
+        }
+        DB::update('update `ballot_candidate` set `candidate_id` = ?, `votes` = ? where `ballot_id` = ? and `position_id` = ? and  `seat_id` = ?', [$candidate_id, $votes, $this->id, $candidate->position_id, $seatId]);
 
         DB::commit();
         // tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate, $seatId) {
