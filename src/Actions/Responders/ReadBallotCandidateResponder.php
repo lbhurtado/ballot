@@ -3,7 +3,7 @@
 namespace LBHurtado\Ballot\Actions\Responders;
 
 use League\Tactician\Middleware;
-use LBHurtado\Ballot\Resources\UpdateBallotCandidateResource;
+use LBHurtado\Ballot\Resources\ReadBallotCandidateResource;
 
 class ReadBallotCandidateResponder implements Middleware
 {
@@ -11,7 +11,7 @@ class ReadBallotCandidateResponder implements Middleware
     {
         $next($command);
 
-        return (new UpdateBallotCandidateResource($command))
+        return (new ReadBallotCandidateResource($command))
             ->response()
             ->setStatusCode(200)
             ;

@@ -5,7 +5,7 @@ namespace LBHurtado\Ballot\Resources;
 use LBHurtado\Ballot\Models\{Ballot, BallotCandidate};
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UpdateBallotCandidateResource extends JsonResource
+class ReadBallotCandidateResource extends JsonResource
 {
     public function toArray($request)
     {

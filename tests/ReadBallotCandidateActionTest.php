@@ -2,6 +2,7 @@
 
 namespace LBHurtado\Ballot\Tests;
 
+use Illuminate\Support\Arr;
 use Opis\Events\EventDispatcher;
 use Illuminate\Support\Facades\Request;
 use LBHurtado\Ballot\Models\{Ballot, Candidate};
@@ -22,7 +23,10 @@ class ReadBallotCandidateActionTest extends TestCase
     public function action_ultimately_reads_a_ballot_when_invoked()
     {
         /*** arrange ***/
-    	$ballot = factory(Ballot::class)->create();
+        factory(Ballot::class)->create(['code' => 'ABC-0001']);
+        factory(Ballot::class)->create(['code' => 'ABC-0002']);
+
+        $ballot = factory(Ballot::class)->create(['code' => 'ABC-0003']);
     	$candidate = Candidate::all()->random();
     	$ballot_id = $ballot->id;
         $ballot_code = $ballot->code;
@@ -49,5 +53,7 @@ class ReadBallotCandidateActionTest extends TestCase
             'candidate_id' => null,
             'votes' => null,
         ]);
+
+        $this->assertEquals($ballot_code, Arr::get(Arr::first($response->getData(true)), 'code'));
     }	
 }

@@ -11,7 +11,8 @@ return [
 		'temp' => storage_path('app')
 	],
 	'qrcode' => [
-		'regex' => env('QRCODE_REGEX', '/([\d]{4})-([\d]{4})/'),
+		'regex' => env('QRCODE_REGEX', '/([a-zA-Z]{3})-([\d]{4})/'),
+		// 'regex' => env('QRCODE_REGEX', '/([\d]{4})-([\d]{4})/'),
 		'test' => env('QRCODE_TEST', '0001-1234'),
 		'dimensions' => [
 			'w' => 302,
