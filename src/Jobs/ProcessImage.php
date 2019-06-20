@@ -71,6 +71,7 @@ class ProcessImage
     {
         extract(config('ballot.qrcode.dimensions'));
         Image::make($this->inputImagePath)
+            ->contrast(100)
             ->crop($w, $h, $x, $y)
             ->save($path = tempnam(config('ballot.files.temp'), 'QRCODE-'.$ballot->id.'-'))
             ;
