@@ -15,6 +15,7 @@ class PositionSeeder extends Seeder
         Position::create(['level' => 1, 'seats' => 1,  'name' => 'President']);
         Position::create(['level' => 1, 'seats' => 1,  'name' => 'Vice-President']);
         Position::create(['level' => 1, 'seats' => 12, 'name' => 'Senator']);
+        // Position::create(['level' => 1, 'seats' => 1,  'name' => 'Party-List']);
         // Position::create(['level' => 2, 'name' => 'Congressman']);
         // Position::create(['level' => 3, 'name' => 'Governor']);
         // Position::create(['level' => 3, 'name' => 'Vice-Governor']);

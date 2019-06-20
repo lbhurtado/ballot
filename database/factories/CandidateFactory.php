@@ -12,5 +12,6 @@ $factory->define(get_class(app('ballot.candidate')), function (Faker $faker) {
         'code' => $faker->word,
         'name' => $faker->name,
         'position_id' => factory(get_class(app('ballot.position')))->create()->id,
+        'sequence' => $faker->numberBetween(1,1000000),
     ];
 });

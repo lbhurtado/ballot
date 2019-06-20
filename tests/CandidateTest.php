@@ -10,15 +10,16 @@ use LBHurtado\Ballot\Models\{Candidate, Position, Ballot};
 class CandidateTest extends TestCase
 {
 	/** @test */
-	public function candidate_model_has_code_and_name_attribute_and_position_relation()
+	public function candidate_model_has_code_name_and_sequence_attribute_and_position_relation()
 	{
         /*** arrange ***/
         $code = $this->faker->word;
 		$name = $this->faker->name;
+		$sequence = $this->faker->numberBetween(1,12);
 
         /*** act ***/
 		$position = factory(Position::class)->create();
-		$candidate = Candidate::create($position, $attributes = compact('code', 'name'));
+		$candidate = Candidate::create($position, $attributes = compact('code', 'name', 'sequence'));
 
         /*** assert ***/
 		$this->assertEquals($attributes, Arr::only($candidate->getAttributes(), array_keys($attributes)));

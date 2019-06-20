@@ -8,7 +8,8 @@ class Candidate extends Model
 {
     protected $fillable = [
         'code',
-        'name'
+        'name',
+        'sequence'
     ];
     
 	public static function create(Position $position, array $attributes = [])

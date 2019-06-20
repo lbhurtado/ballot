@@ -24,8 +24,10 @@ class CreateCandidatesTable extends Migration
 	            $table->string('code')->unique();
 	            $table->string('name')->unique();
 	            $table->integer('position_id')->unsigned()->index();
+	            $table->integer('sequence')->unsigned()->index();
 	            $table->timestamps();
 	            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
+	            $table->unique(['position_id', 'sequence']);
 			});			
 		});
 	}
