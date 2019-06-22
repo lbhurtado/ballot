@@ -13,6 +13,11 @@ class Ballot extends Model
         'image'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'code';
+    }
+
     public function positions()
     {
         return $this->belongsToMany(Position::class, 'ballot_candidate')

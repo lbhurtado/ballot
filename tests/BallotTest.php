@@ -108,4 +108,10 @@ class BallotTest extends TestCase
         $this->assertEquals($seats, BallotCandidate::withBallot($ballot)->count());
         $this->assertEquals($seats, BallotCandidate::all()->count());
 	}
+
+	/** @test */
+	public function ballot_route_key_is_code()
+	{
+		$this->assertEquals('code', factory(Ballot::class)->create()->getRouteKeyName());
+	}
 }
