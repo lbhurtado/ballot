@@ -13,7 +13,7 @@ return [
 	'qrcode' => [
 		'regex' => env('QRCODE_REGEX', '/([a-zA-Z]{3})-([\d]{4})/'),
 		// 'regex' => env('QRCODE_REGEX', '/([\d]{4})-([\d]{4})/'),
-		'test' => env('QRCODE_TEST', 'ABC-0003'),
+		'test' => env('QRCODE_TEST', 'ABC-0001'),
 		'dimensions' => [
 			'w' => 500,
 			'h' => 500,
