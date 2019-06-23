@@ -9,7 +9,6 @@ use LBHurtado\Ballot\Models\Ballot;
 use Intervention\Image\Facades\Image;
 use Illuminate\Foundation\Bus\Dispatchable;
 use LBHurtado\Ballot\Exceptions\{InvalidQRCodeException, DuplicateEntryException};
-use Illuminate\Database\QueryException;
 
 class ProcessImage
 {
@@ -27,6 +26,7 @@ class ProcessImage
         $this->outputImagePath = config('ballot.files.image.destination');
     }
 
+    //TODO: do not hardcode storage directory in ballot update
     public function handle()
     {
         if (! file_exists($this->inputImagePath))
@@ -76,7 +76,7 @@ class ProcessImage
             ->save($path = tempnam(config('ballot.files.temp'), 'QRCODE-'.$ballot->id.'-'))
             ;
 
-        return $path;       
+        return $path;
     }
 
     protected function moveImage(Ballot $ballot)

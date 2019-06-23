@@ -41,8 +41,9 @@ class Ballot extends Model
         });
 
         return $this;
-    } 
+    }
 
+    //TODO: create togglePivot
     public function updatePivot(Candidate $candidate, int $seatId = 1)
     {
         if ($candidate->votes()->whereHas('ballot', function ($q) {$q->where('id', $this->id);})->count() > 0) {
@@ -61,5 +62,5 @@ class Ballot extends Model
         // });
 
         return $this;
-    }    
+    }
 }

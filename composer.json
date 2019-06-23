@@ -21,8 +21,7 @@
         "intervention/image": "^2.4",
         "khanamiryan/qrcode-detector-decoder": "^1.0",
         "lbhurtado/common": "^1.2",
-        "lbhurtado/tactician": "^1.0",
-        "libern/qr-code-reader": "^1.0"
+        "lbhurtado/tactician": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "3.8.*",
