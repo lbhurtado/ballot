@@ -43,8 +43,26 @@ class Ballot extends Model
         return $this;
     }
 
-    //TODO: create togglePivot
     public function updatePivot(Candidate $candidate, int $seatId = 1)
+    {
+        $candidateId = $candidate->id;
+        $votes = 1;
+        $ballotId = $this->id;
+        $positionId = $candidate->position_id;
+
+        DB::update('update `ballot_candidate` set `candidate_id` = ?, `votes` = ? where `ballot_id` = ? and `position_id` = ? and  `seat_id` = ?', [
+            $candidateId, $votes, $ballotId, $positionId, $seatId
+        ]);
+
+        DB::commit();
+        // tap((new Pivot)->setCandidate($candidate, $seatId), function ($pivot) use ($candidate, $seatId) {
+        //     $this->positions()->updateExistingPivot($candidate->position_id, $pivot->getAttributes());
+        // });
+
+        return $this;
+    }
+
+    public function togglePivot(Candidate $candidate, int $seatId = 1)
     {
         if ($candidate->votes()->whereHas('ballot', function ($q) {$q->where('id', $this->id);})->count() > 0) {
             $candidate_id = null;

@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use LBHurtado\Ballot\Models\{Ballot, Candidate};
 
-class UpdateBallotCandidate
+class ToggleBallotCandidate
 {
     use Dispatchable, Queueable;
 
@@ -28,6 +28,6 @@ class UpdateBallotCandidate
 
     public function handle()
     {
-        $this->ballot->updatePivot($this->candidate, $this->seatId);
+        $this->ballot->togglePivot($this->candidate, $this->seatId);
     }
 }
